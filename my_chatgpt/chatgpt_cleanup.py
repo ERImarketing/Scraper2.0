@@ -27,3 +27,7 @@ def cleanup():
     for assistant in assistants_list:
         del_assistant_response = client.beta.assistants.delete(assistant.id)
         print(del_assistant_response)
+
+
+# Testing
+# cleanup()

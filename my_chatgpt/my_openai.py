@@ -57,40 +57,184 @@ def create_assistant(client, file_ids):
         #             }
 
         # """,
+        # instructions="""
+        #   **Read all accessible files.**
+
+        #     **Primary Objective:**
+        #     - **Always return a JSON object in the response containing the extracted data with all of the key value pairs. **
+
+        #     **File Utilization:**
+        #     - **Use all available files to extract the required data as accurately and completely as possible.**
+
+        #     **Triple-Check Protocol:**
+        #     - **Ensure thorough verification at three stages:**
+        #     1. **Initial Extraction:** Verify the completeness of data during the first extraction from files.
+        #     2. **Post-Processing Review:** Recheck the data after any processing or conversion.
+        #     3. **Pre-Submission Confirmation:** Confirm the accuracy and completeness of all data before finalizing the JSON object.
+
+        #     **Extract data from Summons:**
+        #     - **Plaintiff(s) and Defendant(s) Names:**
+        #     - **Plaintiff(s):** Extract Plaintiff listed from Summons (data type: string or "unavailable" if not present). Delete, disregard, or ignore any data labeled "Attorney for Plaintiff."
+        #     - **Defendant(s):** Extract Defendants listed from Summons (data type: string or "unavailable" if not present).
+        #     - **Primary Defendant:** Extract the first name from listed Defendants that is not a business name, that is the primary defendant (data type: string or "unavailable" if not present).
+        #     - **Note:** If there is only one Defendant listed, that is the primary Defendant.
+
+        #     **Extract data from Exhibit files (if available):**
+        #     1. **Plaintiff(s) Data:**
+        #     - **Balance Owed:** (data type: float or "unavailable" if not present).
+        #     2. **Defendant(s) Data:**
+        #     - **Note:** Extract the following data for Defendant(s) as the primary source of data if available. If not available, attempt to extract the data from the Summons.
+        #     - **First Personal Name (non-business):** (data type: string or "unavailable" if not present).
+        #     - **Phone Numbers:** (data type: string, CSV list or "unavailable" if not present).
+        #     - **Email Addresses:** (data type: string, CSV list or "unavailable" if not present).
+        #     - **Address:** (data type: string or "unavailable" if not present).
+        #     - **Note:** The address can almost always be found in the Summons.
+        #     - **Companies Sued:** (data type: string, CSV list). Include all defendants in this list, even if it's the only data available about them.
+        #     3. **Court County Data:** (data type: string or "unavailable" if not present).
+        #     4. **Case Number:** (data type: string or "unavailable" if not present). This is the court ID for example "######/YEAR aka 536793/2023" or "E#######".
+
+        #     **Data Processing Instructions:**
+        #     - **Convert Balance value to a float number with two decimal places.**
+        #     - **Disregard any data labeled "Attorney for Plaintiff."**
+
+
+        #     **Note:** Make sure to triple-check data before proceeding to the next step.
+
+        #     **Generate JSON object with key-value pairs:**
+        #     - **Note:** Always generate the JSON object with these keys.
+        #     - **Creditor:** Plaintiff(s) data (only the name). Exclude "Attorney for Plaintiff" information.
+        #     - **Balance:** Plaintiff’s Balance Owed data (if available),
+        #     - **Companies Sued:** Ensure to include all defendants in this CSV list, regardless of other available data.
+        #     - **First Name:** Extracted First Name of Defendant,
+        #     - **Last Name:** Extracted Last Name of Defendant,
+        #     - **Phone Number:** Defendant’s Phone Numbers,
+        #     - **Email:** Defendant’s Email Addresses,
+        #     - **Address:** Defendant’s Address,
+        #     - **County:** Court County data,
+        #     - **Case Number:** Case Number data,
+        #     - **Notes:** Always include a brief summary about the case.
+
+        # """,
+        # instructions="""
+        #   **Read all accessible files.**
+
+        #     **Primary Objective:**
+        #     - **Always return a JSON object in the response containing the extracted data with all the key value pairs. **
+
+        #     **File Utilization:**
+        #     - **Use all available files to extract the required data as accurately and completely as possible.**
+
+        #     **Triple-Check Protocol:**
+        #     - **Ensure thorough verification at three stages:**
+        #     1. **Initial Extraction:** Verify the completeness of data during the first extraction from files.
+        #     2. **Post-Processing Review:** Recheck the data after any processing or conversion.
+        #     3. **Pre-Submission Confirmation:** Confirm the accuracy and completeness of all data before finalizing the JSON object.
+
+        #     **Extract data from Summons:**
+        #     - **Plaintiff(s) and Defendant(s) Names:**
+        #     - **Plaintiff(s):** Extract Plaintiff listed from Summons (data type: string or "unavailable" if not present). Delete, disregard, or ignore any data that corresponds to "Attorney for Plaintiff."
+        #     - **Defendant(s):** Extract Defendants listed from Summons (data type: string or "unavailable" if not present).
+        #     - **Primary Defendant:** Extract the first name from listed Defendants that is not a business name, that is the primary defendant (data type: string or "unavailable" if not present).
+        #     - **Address:** Extract any addresses present from listed with Defendants (data type: string, CSV list or "unavailable" if not present).
+
+        #     - **Note:** If there is only one Defendant listed, that is the primary Defendant.
+
+        #     **Extract data from Exhibit files (if available):**
+        #     1. **Plaintiff(s) Data:**
+        #     - **Balance Owed:** (data type: float or "unavailable" if not present).
+        #     2. **Defendant(s) Data:**
+        #     - **Note:** Extract the following data for Defendant(s) as the primary source of data if available. If not available, attempt to extract the data from the Summons.
+        #     - **First Personal Name (non-business):** (data type: string or "unavailable" if not present).
+        #     - **Phone Numbers:** (data type: string, CSV list or "unavailable" if not present).
+        #     - **Email Addresses:** (data type: string, CSV list or "unavailable" if not present).
+        #     - **Note:** The address can almost always be found in the Summons.
+        #     - **Companies Sued:** (data type: string, CSV list). Include all defendants in this list, even if it's the only data available about them.
+        #     3. **Court County Data:** (data type: string or "unavailable" if not present).
+        #     4. **Case Number:** (data type: string or "unavailable" if not present). This is the court ID for example "######/YEAR aka 536793/2023" or "E#######".
+
+        #     **Data Processing Instructions:**
+        #     - **Convert Balance value to a float number with two decimal places.**
+        #     - **Disregard any data labeled "Attorney for Plaintiff."**
+
+
+        #     **Note:** Make sure to triple-check data before proceeding to the next step.
+
+        #     **Generate JSON object with key-value pairs:**
+        #     - **Note:** Always generate the JSON object with these keys.
+        #     - **Creditor:** Plaintiff(s) data (only the name). Exclude "Attorney for Plaintiff" information.
+        #     - **Balance:** Plaintiff’s Balance Owed data (if available),
+        #     - **Companies Sued:** Ensure to include all defendants in this CSV list, regardless of other available data.
+        #     - **First Name:** Extracted First Name of Defendant,
+        #     - **Last Name:** Extracted Last Name of Defendant,
+        #     - **Phone Number:** Defendant’s Phone Numbers,
+        #     - **Email:** Defendant’s Email Addresses,
+        #     - **Address:** Defendant’s Address,
+        #     - **County:** Court County data,
+        #     - **Case Number:** Case Number data,
+        #     - **Notes:** Always include a brief summary about the case.
+        # """,
+
         instructions="""
-           Read all accessible files.
 
-            Extract Plaintiff(s) data:
+            **Primary Objective:**
+            - **Always return a JSON object in the response containing the extracted data with all the key value pairs. **
+            
+            **File Utilization:**
+            - **Use all available files to extract the required data as accurately and completely as possible. If there is more than one exhibit provided, analyze the first exhibit to see it it contains all the data. If it doesn't only then move on to analyzing the next file.**
+            
+            **Triple-Check Protocol:**
+            - **Ensure thorough verification at three stages:**
+            1. **Initial Extraction:** Verify the completeness of data during the first extraction from files.
+            2. **Post-Processing Review:** Recheck the data after any processing or conversion.
+            3. **Pre-Submission Confirmation:** Confirm the accuracy and completeness of all data before finalizing the JSON object.
+            
+            **Extract data from Summons:**
+            - **Plaintiff(s) and Defendant(s) Names:**
+            - **Plaintiff(s):** Extract Plaintiff listed from Summons (data type: string or "unavailable" if not present). This is always located on page one of the Summons file. Disregard any data that belongs to Attorney for Plaintiff, this includes the attorney's name, phone number, or email.
+            --- **Note:** In Kings County, the Plaintiff(s) are always located on page 1 of the Summons file.
+            - **Plaintiff(s) Data:**
+            -- **Balance Owed:** (data type: float).
+            -- **Balance Possible Keywords:** "the sum of $", "in the amount of", "damages", 'damages owed", "balance of", "no event less than", "monetary compensation", "financial damages",  etc.
+            --- **Note:** You must return the balance owed. The Balance Owed is the amount the plaintiff is sueing the defendant(s) for it is always found in the Summons. Use the keywords list and other similar terms as context identifiers to locate the amount due. After you have found it, double check the Summons to make sure you have the correct value.
+            - **Defendant(s):** Extract Defendants listed from Summons (data type: string or "unavailable" if not present).
+            - **Primary Defendant:** Extract the first name from listed Defendants that is not a business name, that is the primary defendant (data type: string or "unavailable" if not present).
+            - **Address:** Extract any addresses present from listed with Defendants (data type: string, CSV list or "unavailable" if not present).
 
-            2.1 Extract Plaintiff’(s) Balance Owed data (data type: float or "unavailable" if not present).
-            Extract Defendant(s) data:
+            - **Note:** If there is only one Defendant listed, that is the primary Defendant.
 
-            3.1 From the Defendant(s), extract the first full name that is not a business; this data will be used to save first and last names (data type: string or "unavailable" if not present).
-            3.2 Extract Defendant’(s) Phone Numbers data (data type: string, combine multiple numbers into a CSV list or "unavailable" if not present).
-            3.3 Extract Defendant’(s) Email Addresses data (data type: string, combine multiple emails into a CSV list or "unavailable" if not present).
-            3.4 Extract Defendant’(s) Address’(s) data as a single string with the entire address in it (data type: string or "unavailable" if not present).
-            3.5 Create a CSV list of the companies sued (data type: string or "unavailable" if not present).
-            Extract Court County data (data type: string or "unavailable" if not present).
+            **Extract data from Exhibit files (if available):**
+            2. **Defendant(s) Data:**
+            - **Note:** Extract the following data for Defendant(s) as the primary source of data if available. If not available, attempt to extract the data from the Summons.
+            - **First Personal Name (non-business):** (data type: string or "unavailable" if not present).
+            - **Phone Numbers:** (data type: string, CSV list or "unavailable" if not present).
+            - **Email Addresses:** (data type: string, CSV list or "unavailable" if not present).
+            - **Note:** The address can almost always be found in the Summons.
+            - **Companies Sued:** (data type: string, CSV list). Include all defendants in this list, even if it's the only data available about them.
+            3. **Court County Data:** (data type: string or "unavailable" if not present).
+            4. **Case Number:** (data type: string or "unavailable" if not present). This is the court ID for example "######/YEAR aka 536793/2023" or "E#######".
 
-            Extract Case Number (data type: string or "unavailable" if not present).
+            **Data Processing Instructions:**
+            - **Convert Balance value to a float number with two decimal places.**
+            - **Disregard any data labeled "Attorney for Plaintiff."**
 
-            Look for a unique identifier or number that represents the case number in the file. This could be near the top of the document or in a standardized location depending on the format of the files.
-            Convert Balance value to a float number with two decimals.
 
-            Generate the JSON object with the following key-value pairs:
+            **Note:** At this point go back and check your work. Make sure to triple-check data before proceeding to the next step.
 
-            Creditor: Plaintiff(s) data (data type: string or "unavailable" if not present),
-            Balance: Plaintiff’(s) Balance Owed data (data type: float or "unavailable" if not present),
-            Companies Sued: CSV list of companies sued (data type: string or "unavailable" if not present),
-            First Name: First Name Data Extracted data (data type: string or "unavailable" if not present),
-            Last Name: Last Name Data Extracted data (data type: string or "unavailable" if not present),
-            Phone Number: Defendant’(s) Phone Numbers data (data type: string, combine multiple numbers into a CSV list or "unavailable" if not present),
-            Email: Defendant’(s) Email Addresses data (data type: string, combine multiple emails into a CSV list or "unavailable" if not present),
-            Address: Defendant’(s) Address’(s) data (data type: string or "unavailable" if not present),
-            County: Court County data (data type: string or "unavailable" if not present),
-            Case Number: Case Number data (data type: string or "unavailable" if not present),
-            Notes: Any additional notes about the file (data type: string or "unavailable" if not present).
-""",
+            **Generate JSON object with key-value pairs:**
+            - **Note:** Always generate the JSON object with these keys.
+            - **Creditor:** Plaintiff(s) data (only the name). Exclude "Attorney for Plaintiff" information.
+            - **Balance:** Plaintiff’s Balance Owed data (if available),
+            - **Companies Sued:** Ensure to include all defendants in this CSV list, regardless of other available data.
+            - **First Name:** Extracted First Name of Defendant,
+            - **Last Name:** Extracted Last Name of Defendant,
+            - **Phone Number:** Defendant’s Phone Numbers,
+            - **Email:** Defendant’s Email Addresses,
+            - **Address:** Defendant’s Address,
+            - **County:** Court County data,
+            - **Case Number:** Case Number data,
+            - **Notes:** Always include a brief summary about the case.
+
+        """,
         name="MyAssistant",
         tools=[{"type": "retrieval"}],
         # model="gpt-4-1106-preview",
@@ -210,12 +354,12 @@ def get_steps(client, thread_id, run_id):
     return run_steps
 
 
-def list_of_file_paths():
+def list_of_file_paths(pdf_directory):
     # Dynamically get the PDF directory path in the ./tmp/pdf directory
     pdf_dir = os.path.join(os.getcwd(), "tmp", "pdf")
 
     # Get a list of all files in the PDF directory
-    files = os.listdir(pdf_dir)
+    files = os.listdir(pdf_directory)
 
     # Create a dictionary to group files by their PDF file name
     pdf_files_dict = {}
@@ -223,7 +367,8 @@ def list_of_file_paths():
     # Group files by their PDF file name
     for file_name in files:
         pdf_name = file_name.split('_')[0]
-        file_path = os.path.join(pdf_dir, file_name)  # Get the full file path
+        # Get the full file path
+        file_path = os.path.join(pdf_directory, file_name)
         if pdf_name in pdf_files_dict:
             pdf_files_dict[pdf_name].append(file_path)
         else:
@@ -231,7 +376,7 @@ def list_of_file_paths():
 
     # Create a list to store groups of files with the same PDF file name
     same_pdf_files = [
-        files for files in pdf_files_dict.values() if len(files) > 1]
+        files for files in pdf_files_dict.values() if len(files) >= 1]
 
     # Return the list of groups of files with the same PDF file name
     return same_pdf_files
@@ -258,33 +403,6 @@ def process_files(directory):
             print(f'File path: {file_path}')
 
 
-def list_of_file_paths():
-    # Dynamically get the PDF directory path in the ./tmp/pdf directory
-    pdf_dir = os.path.join(os.getcwd(), "tmp", "pdf")
-
-    # Get a list of all files in the PDF directory
-    files = os.listdir(pdf_dir)
-
-    # Create a dictionary to group files by their PDF file name
-    pdf_files_dict = {}
-
-    # Group files by their PDF file name
-    for file_name in files:
-        pdf_name = file_name.split('_')[0]
-        file_path = os.path.join(pdf_dir, file_name)  # Get the full file path
-        if pdf_name in pdf_files_dict:
-            pdf_files_dict[pdf_name].append(file_path)
-        else:
-            pdf_files_dict[pdf_name] = [file_path]
-
-    # Create a list to store groups of files with the same PDF file name
-    same_pdf_files = [
-        files for files in pdf_files_dict.values() if len(files) > 1]
-
-    # Return the list of groups of files with the same PDF file name
-    return same_pdf_files
-
-
 def save_to_csv(data, filename):
     """
     Save a list of dictionaries to a CSV file.
@@ -298,24 +416,28 @@ def save_to_csv(data, filename):
         return
 
     # Determine the fieldnames (keys of the dictionary)
-    fieldnames = data[0].keys()
+    try:
+        fieldnames = data[0].keys()
 
-    # Writing to the csv file
-    with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        # Writing to the csv file
+        with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
-        # Write the header
-        writer.writeheader()
+            # Write the header
+            writer.writeheader()
 
-        # Write the data rows
-        for row in data:
-            if row != None:
-                writer.writerow(row)
+            # Write the data rows
+            for row in data:
+                if row != None:
+                    writer.writerow(row)
 
-    print(f"Data successfully written to {filename}")
+        print(f"Data successfully written to {filename}")
+    except Exception as e:
+        print(f"Error: {e} {data}")
+        pass
 
 
-def send_to_chatgpt(base_directory):
+def send_to_chatgpt(csv_directory, pdf_directory):
 
     load_dotenv()
 
@@ -324,7 +446,7 @@ def send_to_chatgpt(base_directory):
     )
 
     # Get a list of all files in the PDF directory
-    case_files = list_of_file_paths()
+    case_files = list_of_file_paths(pdf_directory)
     responses = []
 
     for case_file in case_files:
@@ -380,6 +502,5 @@ def send_to_chatgpt(base_directory):
         analysis_time = analysis_end_time - analysis_start_time
         print(f'Analysis Time: {analysis_time}')
         print('---------------------------------')
-    file_path = os.path.join(base_directory, "tmp",
-                             "csv", "chatgpt-results.csv")
+    file_path = os.path.join(csv_directory, "chatgpt-results.csv")
     save_to_csv(responses, file_path)

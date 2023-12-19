@@ -1,6 +1,7 @@
 import os
 from selenium import webdriver
 
+
 def init_driver():
 
     # Start with the current working directory
@@ -11,7 +12,7 @@ def init_driver():
     print(f'Download directory is: {download_directory}')
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--headless")
+    # chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument('--disable-software-rasterizer')
     chrome_options.add_argument('--disable-dev-shm-usage')
