@@ -34,6 +34,7 @@ def send_to_airtable(json_data):
                     "Last Name": json_data['Last Name'],
                     "CREDITOR NAME": json_data['Creditor'],
                     "COUNTY": json_data['County'],
+                    "Case ID": json_data['Case Number'],
                     "BUSINESS ADDRESS": json_data['Address'],
                     "NOTES": json_data['Notes'],
                 }

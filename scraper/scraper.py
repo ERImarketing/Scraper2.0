@@ -47,7 +47,7 @@ def scraper():
     driver = init_driver()
 
     # Set court index to 1 to start with the first court
-    court_index = 1
+    court_index = 20
 
     # Select a court using a custom function and anticaptcha_key
     court_index, _ = select_court(driver, court_index, None)

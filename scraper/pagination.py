@@ -48,7 +48,7 @@ def find_and_click_next_page(driver, anticaptcha_key, existing_df, next_court):
 
             else:
                 # If there is no next page link with '>>', select the next court and exit the loop
-                select_court(driver, anticaptcha_key, next_court, existing_df)
+                select_court(driver, next_court, existing_df)
                 break
 
         except StaleElementReferenceException:

@@ -1,5 +1,6 @@
 import datetime
 import os
+import time
 # Local application/library-specific imports
 from my_airtable.send_to_airtable import send_to_airtable
 from file_manager.file_cleanup import clean_directory
@@ -27,13 +28,13 @@ if __name__ == "__main__":
         pdf_directory = os.path.join(tmp_directory, "pdf")
 
         # Run the scraper
-        scraper()
+        # scraper()
 
         # # Get the path to the CSV file
         scrape_results = os.path.join(csv_directory, "scrape-results.csv")
 
         # download_search_result(scrape_results)
-        send_to_chatgpt(base_directory)
+        send_to_chatgpt(csv_directory, pdf_directory)
 
         chatgpt_results = os.path.join(csv_directory, "chatgpt-results.csv")
 
@@ -72,6 +73,7 @@ if __name__ == "__main__":
             else:
                 print('Balance too low. Not sending to Airtable.')
                 print(f"Balance: {balance}")
+        time.sleep(3600)
         clean_directory(csv_directory)
         clean_directory(pdf_directory)
         cleanup()
